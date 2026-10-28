@@ -28,7 +28,7 @@ jobs:
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@users.noreply.github.com"
-          git remote set-url origin https://mingko3:${{ secrets.GH_TOKEN }}@github.com/mingko3/socks5-clash-proxy.git
+          git remote set-url origin https://kk362-cyber:${{ secrets.GH_TOKEN }}@github.com/kk362-cyber/socks5-clash-proxy.git
 
       - name: Commit and push changes
         run: |
