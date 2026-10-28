@@ -2,8 +2,8 @@ name: Update SOCKS5 Proxies and Generate Clash Config
 
 on:
   schedule:
-    - cron: '0 */4 * * *'  # 每 4 小时运行一次
-  workflow_dispatch:      # 允许手动触发
+    - cron: '0 */4 * * *'
+  workflow_dispatch:
 
 jobs:
   update:
@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -24,14 +26,10 @@ jobs:
       - name: Run script to generate proxy.yaml
         run: python generate.py
 
-      - name: Setup Git credentials
+      - name: Commit and push changes
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@users.noreply.github.com"
-          git remote set-url origin https://kk362-cyber:${{ secrets.GH_TOKEN }}@github.com/kk362-cyber/socks5-clash-proxy.git
-
-      - name: Commit and push changes
-        run: |
           git add proxy.yaml
           git commit -m "Auto update proxies" || echo "Nothing to commit"
-          git push
+          git push https://kk362-cyber:${{ secrets.GH_TOKEN }}@github.com/kk362-cyber/socks5-clash-proxy.git main
